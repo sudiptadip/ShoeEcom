@@ -1,0 +1,66 @@
+﻿@model List<Category>
+
+<div style="min-height: 100vh" class="col-5 mx-auto" >
+    <h1 class="text-center mt-5" >Category List</h1>
+    <a asp-controller="Category" asp-action="Create" class="btn btn-dark px-3" >Create Category</a>
+    <table class="table table-striped mt-3">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Category Name</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+            int i = 0;            
+            foreach (var item in Model)
+            {
+                    <tr id="row_@item.Id">
+                    <th scope="row">@(++i)</th>
+                    <td>@item.Name</td>
+                    <td>
+                        <a class="btn btn-sm btn-warning px-3" asp-controller="Category" asp-action="Update" asp-route-id="@item.Id" ><i class="fa-solid fa-pen-to-square"></i></a>
+                        <a class="btn btn-sm btn-danger px-3" onclick="deleteCategory(@item.Id)" ><i class="fa-solid fa-trash"></i></a>
+                    </td>
+                </tr>
+            }
+            }
+        </tbody>
+    </table>
+
+</div>
+
+@section Scripts{
+    <script>            
+        function deleteCategory(id) {
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You won't be able to revert this!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, delete it!"
+            }).then((result) => {
+                if (result.isConfirmed) {                   
+                    $.ajax({
+                        url: '/Admin/Category/Delete?id=' + id,
+                        type: 'DELETE',
+                        success: function (result) {
+                            $("#row_" + id).remove();
+                            Swal.fire({
+                                title: "Deleted!",
+                                text: result.message,
+                                icon: "success"
+                            });
+                        },
+                        error: function (xhr, status, error) {
+                            console.log(error)
+                        }
+                    });
+                }
+            });
+        }
+    </script>
+}

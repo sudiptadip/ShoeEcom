@@ -1,0 +1,131 @@
+﻿@page
+@model LoginModel
+
+@{
+    ViewData["Title"] = "Log in";
+}
+
+<style>
+    :root {
+        --primary-color: #00234D;
+        --secondary-color: #F76B6A;
+        --btn-primary-border-radius: 0.25rem;
+        --btn-primary-color: #fff;
+        --btn-primary-background-color: #00234D;
+        --btn-primary-border-color: #00234D;
+        --btn-primary-hover-color: #fff;
+        --btn-primary-background-hover-color: #00234D;
+        --btn-primary-border-hover-color: #00234D;
+        --btn-primary-font-weight: 500;
+        --btn-secondary-border-radius: 0.25rem;
+        --btn-secondary-color: #00234D;
+        --btn-secondary-background-color: transparent;
+        --btn-secondary-border-color: #00234D;
+        --btn-secondary-hover-color: #fff;
+        --btn-secondary-background-hover-color: #00234D;
+        --btn-secondary-border-hover-color: #00234D;
+        --btn-secondary-font-weight: 500;
+        --heading-color: #000;
+        --heading-font-family: 'Poppins', sans-serif;
+        --heading-font-weight: 700;
+        --title-color: #000;
+        --title-font-family: 'Poppins', sans-serif;
+        --title-font-weight: 400;
+        --body-color: #000;
+        --body-background-color: #fff;
+        --body-font-family: 'Poppins', sans-serif;
+        --body-font-size: 14px;
+        --body-font-weight: 400;
+        --section-heading-color: #000;
+        --section-heading-font-family: 'Poppins', sans-serif;
+        --section-heading-font-size: 48px;
+        --section-heading-font-weight: 600;
+        --section-subheading-color: #000;
+        --section-subheading-font-family: 'Poppins', sans-serif;
+        --section-subheading-font-size: 16px;
+        --section-subheading-font-weight: 400;
+    }
+</style>
+
+
+@* <div class="row">
+    <div class="col-md-4">
+        <section>
+            <form id="account" method="post">
+                <h2>Use a local account to log in.</h2>
+                <hr />
+                <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+                <div class="form-floating mb-3">
+                    <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
+                    <label asp-for="Input.Email" class="form-label">Email</label>
+                    <span asp-validation-for="Input.Email" class="text-danger"></span>
+                </div>
+                <div class="form-floating mb-3">
+                    <input asp-for="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" placeholder="password" />
+                    <label asp-for="Input.Password" class="form-label">Password</label>
+                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+                </div>
+                <div class="checkbox mb-3">
+                    <label asp-for="Input.RememberMe" class="form-label">
+                        <input class="form-check-input" asp-for="Input.RememberMe" />
+                        @Html.DisplayNameFor(m => m.Input.RememberMe)
+                    </label>
+                </div>
+                <div>
+                    <button id="login-submit" type="submit" class="w-100 btn btn-lg btn-primary">Log in</button>
+                </div>
+                <div>
+                    <p>
+                        <a id="forgot-password" asp-page="./ForgotPassword">Forgot your password?</a>
+                    </p>
+                    <p>
+                        <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Register as a new user</a>
+                    </p>
+                    <p>
+                        <a id="resend-confirmation" asp-page="./ResendEmailConfirmation">Resend email confirmation</a>
+                    </p>
+                </div>
+            </form>
+        </section>
+    </div>
+    
+</div> *@
+
+<main id="MainContent" class="content-for-layout">
+    <div class="login-page mt-100">
+        <div class="container">
+            <form id="account" method="post" class="login-form common-form mx-auto">
+                <div class="section-header mb-3">
+                    <h2 class="section-heading text-center">Login</h2>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <fieldset>
+                            <label asp-for="Input.Email" class="label">Email address</label>
+                            <input asp-for="Input.Email" type="email" />
+                            <span asp-validation-for="Input.Email" class="text-danger"></span>
+                        </fieldset>
+                    </div>
+                    <div class="col-12">
+                        <fieldset>
+                            <label asp-for="Input.Email" class="label">Password</label>
+                            <input asp-for="Input.Email" type="password" />
+                            <span asp-validation-for="Input.Password" class="text-danger"></span>
+                        </fieldset>
+                    </div>
+                    <div class="col-12 mt-3">
+                        <a asp-page="./ForgotPassword" class="text_14 d-block">Forgot your password?</a>
+                        <button type="submit" class="btn-primary d-block mt-4 btn-signin">SIGN IN</button>
+                        <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl" class="btn-secondary mt-2 btn-signin">CREATE AN ACCOUNT</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</main>
+
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

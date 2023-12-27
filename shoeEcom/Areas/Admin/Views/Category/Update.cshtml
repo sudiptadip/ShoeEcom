@@ -1,0 +1,25 @@
+﻿@model Category
+
+
+<div style="min-height: 100vh" class="col-5 mx-auto">
+    <h1 class="text-center mt-5">Update Category</h1>
+
+    <form method="post" class="login-form common-form mx-auto">
+        <a asp-controller="Category" asp-action="Create" class="btn btn-dark px-3">Back To Index</a>
+        <div class="col-md-12">
+            <fieldset>
+                <label asp-for="Name" class="label">Category Name</label>
+                <input asp-for="Name" class="p-2" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </fieldset>
+        </div>
+        <div class="col-12 mt-3">
+            <button type="submit" class="btn-primary d-block mt-3 btn-signin">Update</button>
+        </div>
+    </form>
+
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

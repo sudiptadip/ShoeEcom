@@ -1,0 +1,130 @@
+﻿@page
+@model RegisterModel
+@{
+    ViewData["Title"] = "Register";
+}
+
+<style>
+    :root {
+        --primary-color: #00234D;
+        --secondary-color: #F76B6A;
+        --btn-primary-border-radius: 0.25rem;
+        --btn-primary-color: #fff;
+        --btn-primary-background-color: #00234D;
+        --btn-primary-border-color: #00234D;
+        --btn-primary-hover-color: #fff;
+        --btn-primary-background-hover-color: #00234D;
+        --btn-primary-border-hover-color: #00234D;
+        --btn-primary-font-weight: 500;
+        --btn-secondary-border-radius: 0.25rem;
+        --btn-secondary-color: #00234D;
+        --btn-secondary-background-color: transparent;
+        --btn-secondary-border-color: #00234D;
+        --btn-secondary-hover-color: #fff;
+        --btn-secondary-background-hover-color: #00234D;
+        --btn-secondary-border-hover-color: #00234D;
+        --btn-secondary-font-weight: 500;
+        --heading-color: #000;
+        --heading-font-family: 'Poppins', sans-serif;
+        --heading-font-weight: 700;
+        --title-color: #000;
+        --title-font-family: 'Poppins', sans-serif;
+        --title-font-weight: 400;
+        --body-color: #000;
+        --body-background-color: #fff;
+        --body-font-family: 'Poppins', sans-serif;
+        --body-font-size: 14px;
+        --body-font-weight: 400;
+        --section-heading-color: #000;
+        --section-heading-font-family: 'Poppins', sans-serif;
+        --section-heading-font-size: 48px;
+        --section-heading-font-weight: 600;
+        --section-subheading-color: #000;
+        --section-subheading-font-family: 'Poppins', sans-serif;
+        --section-subheading-font-size: 16px;
+        --section-subheading-font-weight: 400;
+    }
+</style>
+
+
+    @* <div class="col-md-4">
+         <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+            <h2>Create a new account.</h2>
+            <hr />
+            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+            <div class="form-floating mb-3">
+                <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
+                <label asp-for="Input.Email">Email</label>
+                <span asp-validation-for="Input.Email" class="text-danger"></span>
+            </div>
+            <div class="form-floating mb-3">
+                <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
+                <label asp-for="Input.Password">Password</label>
+                <span asp-validation-for="Input.Password" class="text-danger"></span>
+            </div>
+            <div class="form-floating mb-3">
+                <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
+                <label asp-for="Input.ConfirmPassword">Confirm Password</label>
+                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+            </div>
+            <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
+        </form>
+    </div> *@
+<div id="MainContent" class="content-for-layout">
+    <div class="login-page mt-100">
+        <div class="container">
+            <form id="registerForm" style="max-width: 564px !important" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="login-form common-form mx-auto">
+                <div class="section-header mb-3">
+                    <h2 class="section-heading text-center">Register</h2>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <fieldset>
+                            <label class="label">First name</label>
+                            <input class="p-2" type="text" />
+                            <span asp-validation-for="Input.Email" class="text-danger"></span>
+                        </fieldset>
+                    </div>
+                    <div class="col-md-6">
+                        <fieldset>
+                            <label class="label">Last name</label>
+                            <input class="p-2" type="text" />
+                            <span asp-validation-for="Input.Email" class="text-danger"></span>
+                        </fieldset>
+                    </div>
+                    <div class="col-12">
+                        <fieldset>
+                            <label asp-for="Input.Email" class="label">Email address</label>
+                            <input class="p-2" asp-for="Input.Email" class="p-2" />
+                            <span asp-validation-for="Input.Email" class="text-danger"></span>
+                        </fieldset>
+                    </div>
+                    <div class="col-12">
+                        <fieldset>
+                            <label asp-for="Input.Password" class="label">Password</label>
+                            <input class="p-2" asp-for="Input.Password" class="p-2" />
+                            <span asp-validation-for="Input.Password" class="text-danger"></span>
+                        </fieldset>
+                    </div>
+                    <div class="col-12">
+                        <fieldset>
+                            <label asp-for="Input.ConfirmPassword" class="label">Confirm Password</label>
+                            <input asp-for="Input.ConfirmPassword" class="p-2" />
+                            <span asp-validation-for="Input.Email" class="text-danger"></span>
+                        </fieldset>
+                    </div>
+                    <div class="col-12 mt-3">
+                        <button type="submit" class="btn-primary d-block mt-3 btn-signin">CREATE</button>
+                        <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl" class="btn-secondary mt-2 btn-signin">LOGIN</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
