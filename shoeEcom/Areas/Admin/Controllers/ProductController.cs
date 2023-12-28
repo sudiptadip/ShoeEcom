@@ -12,13 +12,15 @@ namespace shoeEcom.Areas.Admin.Controllers
     public class ProductController : Controller
     {
         private readonly IUniteOfWork _uniteOfWork;
-        public ProductController(IUniteOfWork uniteOfWork)
+        private readonly IWebHostEnvironment _webHostEnvironment;
+        public ProductController(IUniteOfWork uniteOfWork, IWebHostEnvironment webHostEnvironment)
         {
             _uniteOfWork = uniteOfWork;
+            _webHostEnvironment = webHostEnvironment;
         }
         public IActionResult Index()
         {
-            IEnumerable<Product> Products = _uniteOfWork.Product.GetAll();
+            IEnumerable<Product> Products = _uniteOfWork.Product.GetAll(includeProperty: "Category,ProductImages");
             return View(Products);
         }
 
@@ -39,6 +41,44 @@ namespace shoeEcom.Areas.Admin.Controllers
             {
                 _uniteOfWork.Product.Add(obj);
                 _uniteOfWork.Save();
+
+                string wwwRootPath = _webHostEnvironment.WebRootPath;
+
+
+                if(files != null)
+                {
+                    foreach (IFormFile file in files)
+                    {
+                        string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+                        string productPath = @"images\product\product-" + obj.Id.ToString();
+                        string finalPath = Path.Combine(wwwRootPath, productPath);
+
+                        if (!Directory.Exists(finalPath))
+                        {
+                            Directory.CreateDirectory(finalPath);
+                        }
+
+                        using(var fileStreem = new FileStream(Path.Combine(finalPath, fileName), FileMode.Create))
+                        {
+                            file.CopyTo(fileStreem);
+                        }
+
+                        ProductImage productImage = new()
+                        {
+                            ImageUrl = @"\" + productPath + @"\" + fileName,
+                            ProductId = obj.Id,
+                        };
+
+                        if(obj.ProductImages == null)
+                        {
+                            obj.ProductImages = new List<ProductImage>();
+                        }
+
+                        obj.ProductImages.Add(productImage);
+                        _uniteOfWork.ProductImage.Add(productImage);
+                        _uniteOfWork.Save();
+                    }
+                }                
                 return RedirectToAction("Index");
             }
             return View();

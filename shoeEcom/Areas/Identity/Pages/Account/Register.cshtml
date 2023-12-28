@@ -80,16 +80,16 @@
                 <div class="row">
                     <div class="col-md-6">
                         <fieldset>
-                            <label class="label">First name</label>
-                            <input class="p-2" type="text" />
-                            <span asp-validation-for="Input.Email" class="text-danger"></span>
+                            <label asp-for="Input.FirstName" class="label">First name</label>
+                            <input asp-for="Input.FirstName" class="p-2" type="text" />
+                            <span asp-validation-for="Input.FirstName" class="text-danger"></span>
                         </fieldset>
                     </div>
                     <div class="col-md-6">
                         <fieldset>
-                            <label class="label">Last name</label>
-                            <input class="p-2" type="text" />
-                            <span asp-validation-for="Input.Email" class="text-danger"></span>
+                            <label asp-for="Input.LastName" class="label">Last name</label>
+                            <input asp-for="Input.LastName" class="p-2" type="text" />
+                            <span asp-validation-for="Input.LastName" class="text-danger"></span>
                         </fieldset>
                     </div>
                     <div class="col-12">
@@ -110,7 +110,15 @@
                         <fieldset>
                             <label asp-for="Input.ConfirmPassword" class="label">Confirm Password</label>
                             <input asp-for="Input.ConfirmPassword" class="p-2" />
-                            <span asp-validation-for="Input.Email" class="text-danger"></span>
+                            <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                        </fieldset>
+                    </div>
+                    <div class="col-12">
+                        <fieldset>
+                            <label asp-for="Input.Role" class="label">Select Role</label>
+                            <select asp-for="Input.Role" asp-items="@Model.Input.RoleList" class="p-2" >
+                                <option selected disabled >Select Role</option>
+                            </select>
                         </fieldset>
                     </div>
                     <div class="col-12 mt-3">

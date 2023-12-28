@@ -2,12 +2,15 @@
 
 <div style="min-height: 100vh" class="col-5 mx-auto" >
     <h1 class="text-center mt-5">Product List</h1>
-    <a asp-controller="Product" asp-action="Create" class="btn btn-dark px-3">Create Category</a>
+    <a asp-controller="Product" asp-action="Create" class="btn btn-dark px-3">Create Product</a>
     <table class="table table-striped mt-3">
         <thead>
             <tr>
+                <th scope="col"></th>
                 <th scope="col">#</th>
                 <th scope="col">Product Name</th>
+                <th scope="col">Category</th>
+                <th scope="col">SKU</th>
                 <th scope="col"></th>
             </tr>
         </thead>
@@ -16,9 +19,12 @@
             int i = 0;            
             foreach (var item in Model)
             {
-                    <tr id="row_@item.Id">
+                <tr id="row_@item.Id">
+                    <td><img style="width: 40px; height: 40px; border-radius: 50%;" src="@item.ProductImages[0].ImageUrl" /></td>
                     <th scope="row">@(++i)</th>
                     <td>@item.Title</td>
+                    <td>@item.Category.Name</td>
+                    <td>@item.SKU</td>
                     <td>
                         <a class="btn btn-sm btn-warning px-3" asp-controller="Category" asp-action="Update" asp-route-id="@item.Id" ><i class="fa-solid fa-pen-to-square"></i></a>
                         <a class="btn btn-sm btn-danger px-3" onclick="deleteCategory(@item.Id)" ><i class="fa-solid fa-trash"></i></a>
@@ -45,7 +51,7 @@
             }).then((result) => {
                 if (result.isConfirmed) {                   
                     $.ajax({
-                        url: '/Admin/Category/Delete?id=' + id,
+                        url: '/Admin/Product/Delete?id=' + id,
                         type: 'DELETE',
                         success: function (result) {
                             $("#row_" + id).remove();

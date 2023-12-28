@@ -23,6 +23,11 @@
   <ItemGroup>
     <ProjectReference Include="..\Ecom.DataAccess\Ecom.DataAccess.csproj" />
     <ProjectReference Include="..\Ecom.Model\Ecom.Model.csproj" />
+    <ProjectReference Include="..\Ecom.Utility\Ecom.Utility.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\images\product\" />
   </ItemGroup>
 
 </Project>

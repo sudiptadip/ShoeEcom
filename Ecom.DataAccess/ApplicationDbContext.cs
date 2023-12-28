@@ -17,5 +17,7 @@ namespace Ecom.DataAccess
         }
         public DbSet<Category> Categorys { get; set; }
         public DbSet<Product> Products { get; set; }
+        public DbSet<ProductImage> ProductImages { get; set; }
+        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
     }
 }

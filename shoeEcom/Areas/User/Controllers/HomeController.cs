@@ -1,3 +1,5 @@
+using Ecom.DataAccess.Repository.IRepository;
+using Ecom.Model;
 using Microsoft.AspNetCore.Mvc;
 using shoeEcom.Models;
 using System.Diagnostics;
@@ -8,14 +10,17 @@ namespace shoeEcom.Areas.User.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IUniteOfWork _uniteOfWork;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IUniteOfWork uniteOfWork)
         {
             _logger = logger;
+            _uniteOfWork = uniteOfWork;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(int pageNumber)
         {
+            IEnumerable<Category> products = _uniteOfWork.Category.GetAll().Take(2);
             return View();
         }
 

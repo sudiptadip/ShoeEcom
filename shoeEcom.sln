@@ -3,11 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34322.80
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "shoeEcom", "shoeEcom\shoeEcom.csproj", "{C2E8A87F-6D32-4709-ACA3-BBC2F1D0E4A3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "shoeEcom", "shoeEcom\shoeEcom.csproj", "{C2E8A87F-6D32-4709-ACA3-BBC2F1D0E4A3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecom.Model", "Ecom.Model\Ecom.Model.csproj", "{A980FCD7-64D4-43C3-82AC-A0D0A19C9D68}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ecom.Model", "Ecom.Model\Ecom.Model.csproj", "{A980FCD7-64D4-43C3-82AC-A0D0A19C9D68}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecom.DataAccess", "Ecom.DataAccess\Ecom.DataAccess.csproj", "{C334734B-DD74-404C-8BEF-DFE159F0B14D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ecom.DataAccess", "Ecom.DataAccess\Ecom.DataAccess.csproj", "{C334734B-DD74-404C-8BEF-DFE159F0B14D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecom.Utility", "Ecom.Utility\Ecom.Utility.csproj", "{1611E74F-1B14-41EF-8021-DA3182DD34C2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{C334734B-DD74-404C-8BEF-DFE159F0B14D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C334734B-DD74-404C-8BEF-DFE159F0B14D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C334734B-DD74-404C-8BEF-DFE159F0B14D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1611E74F-1B14-41EF-8021-DA3182DD34C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1611E74F-1B14-41EF-8021-DA3182DD34C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1611E74F-1B14-41EF-8021-DA3182DD34C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1611E74F-1B14-41EF-8021-DA3182DD34C2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
