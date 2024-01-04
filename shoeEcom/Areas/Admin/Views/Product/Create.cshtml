@@ -15,6 +15,18 @@
         </div>
         <div class="col-md-12">
             <fieldset>
+                <label asp-for="Gender" class="label"></label>
+                <select asp-for="Gender" class="form-select">
+                    <option disabled selected> Shoe Type </option>
+                    <option value="men"> For Men </option>
+                    <option value="women"> For Women </option>
+                    <option value="kid"> Kids </option>
+                </select>
+                <span asp-validation-for="CategoryId" class="text-danger"></span>
+            </fieldset>
+        </div>
+        <div class="col-md-12">
+            <fieldset>
                 <label asp-for="Price" class="label"></label>
                 <input asp-for="Price" class="p-2" />
                 <span asp-validation-for="Price" class="text-danger"></span>
@@ -31,7 +43,7 @@
             <fieldset>
                 <label asp-for="CategoryId" class="label"></label>
                 <select asp-for="CategoryId" asp-items="@ViewBag.CategoryList" class="form-select">
-                    <option selected > Select Category </option>
+                    <option disabled selected> Select Category </option>
                 </select>
                 <span asp-validation-for="CategoryId" class="text-danger"></span>
             </fieldset>

@@ -56,7 +56,7 @@ namespace Ecom.DataAccess.Repository
             else
             {
                 IQueryable<T> query = dbSet;
-                query.Where(filter);
+                query = query.Where(filter);
                 if (includeProperty != null)
                 {
                     foreach (var item in includeProperty.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))

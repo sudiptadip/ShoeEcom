@@ -30,6 +30,9 @@ namespace Ecom.Model
         [Required]
         public string SKU { get; set; }
 
+        [Required, DisplayName("Shoe Type")]
+        public string Gender { get; set; }
+
         [Required]
         public int CategoryId { get; set; }
 
