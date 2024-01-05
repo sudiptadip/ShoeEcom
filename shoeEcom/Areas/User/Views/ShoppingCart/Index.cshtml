@@ -1,0 +1,151 @@
+﻿@model List<ShoppingCart>
+
+<main id="MainContent" class="content-for-layout">
+    <div class="cart-page mt-100">
+        <div class="container">
+            <div class="cart-page-wrapper">
+                <div class="row">
+                    <div class="col-lg-7 col-md-12 col-12">
+                        <table class="cart-table w-100">
+                            <thead>
+                                <tr>
+                                    <th class="cart-caption heading_18">Product</th>
+                                    <th class="cart-caption heading_18"></th>
+                                    <th class="cart-caption text-center heading_18 d-none d-md-table-cell">Quantity</th>
+                                    <th class="cart-caption text-end heading_18">Price</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                
+                            
+                            @foreach (var item in Model)
+                                {
+                                    <tr class="cart-item" id="row_@item.Id">
+                                        <td class="cart-item-media">
+                                            <div class="mini-img-wrapper">
+                                                <img class="mini-img" src="@item.Product.ProductImages[0].ImageUrl" alt="img">
+                                            </div>
+                                        </td>
+                                        <td class="cart-item-details">
+                                            <h2 class="product-title"><a href="#">@item.Product.Title</a></h2>
+                                            <p class="product-vendor"> <strong>Category : </strong> @item.Product.Category.Name </p>
+                                            <p class="product-vendor"> <strong>Size : </strong> @item.Size </p>
+                                        </td>
+                                        <td class="cart-item-quantity">
+                                            <div class="quantity d-flex align-items-center justify-content-between" style="border: none !important" >
+                                                <p class="product-vendor"> <strong>Quantity : </strong> @item.Count </p>
+                                            </div>
+                                            <span onclick="deleteCart(@item.Id)" class="product-remove mt-2" style="cursor: pointer">Remove</span>
+                                        </td>
+                                        <td class="cart-item-price text-end">
+                                            <div class="product-price">@item.Product.DiscountPrice.ToString("c")</div>
+                                        </td>
+                                    </tr>
+                                }
+                                @if (Model.Count <= 0)
+                                {
+                                    <tr class="cart-item">
+                                        <td></td>
+                                        <td></td>
+                                        <td>
+                                            <a asp-controller="Home" asp-action="AllProduct" class="btn btn-outline-dark">Shop Now</a>
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-lg-5 col-md-12 col-12">
+                        <div class="cart-total-area">
+                            <h3 class="cart-total-title d-none d-lg-block mb-0">
+                                Cart Totals
+                            </h3>
+                            <form>
+                                <input hidden value="@ViewBag.Subtotals" />
+                                <input hidden value="@ViewBag.Discount" />
+                                <input hidden value="@(ViewBag.Subtotals - ViewBag.Discount)" />
+                                <div class="cart-total-box mt-4">
+                                    <div class="subtotal-item subtotal-box">
+                                        <h4 class="subtotal-title">Subtotals:</h4>
+                                        <p class="subtotal-value">@ViewBag.Subtotals.ToString("c")</p>
+                                    </div>
+                                    <div class="subtotal-item shipping-box">
+                                        <h4 class="subtotal-title">Shipping:</h4>
+                                        <p class="subtotal-value">$0.00</p>
+                                    </div>
+                                    <div class="subtotal-item discount-box">
+                                        <h4 class="subtotal-title">Discount:</h4>
+                                        <p class="subtotal-value">@ViewBag.Discount.ToString("c")</p>
+                                    </div>
+                                    <hr />
+                                    <div class="subtotal-item discount-box">
+                                        <h4 class="subtotal-title">Total:</h4>
+                                        <p class="subtotal-value">@((ViewBag.Subtotals - ViewBag.Discount).ToString("c"))</p>
+                                    </div>
+                                    <p class="shipping_text">Shipping & taxes calculated at checkout</p>
+                                    <div class="d-flex justify-content-center mt-4">
+                                        @if (Model.Count <= 0)
+                                        {
+                                            <a asp-controller="Home" asp-action="AllProduct" class="position-relative btn-primary text-uppercase">
+                                                Buy Product
+                                            </a>
+                                        }
+                                        else
+                                        {
+                                            <a asp-controller="ShoppingCart" asp-action="Checkout" class="position-relative btn-primary text-uppercase">
+                                                Procced to checkout
+                                            </a>
+                                        }
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+@section Scripts {
+    <script>
+        function deleteCart(id) {
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You won't be able to revert this!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, delete it!"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: '/User/ShoppingCart/Delete?id=' + id,
+                        type: 'DELETE',
+                        success: function (result) {
+                            $("#row_" + id).remove();
+                            reloadPage()
+                            Swal.fire({
+                                title: "Deleted!",
+                                text: result.message,
+                                icon: "success"
+                            });
+                        },
+                        error: function (xhr, status, error) {
+                            console.log(error)
+                        }
+                    });
+                }
+            });
+        }
+
+        function reloadPage() {
+            setTimeout(() => {
+                window.location.reload();
+            },1500)
+        }
+
+    </script>
+}

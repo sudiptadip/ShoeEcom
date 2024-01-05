@@ -12,6 +12,7 @@ namespace Ecom.DataAccess.Repository.IRepository
         public IProductRepository Product { get; }
         public IProductImageRepository ProductImage { get; }
         public IApplicationUserRepository ApplicationUser { get; }
+        public IShoppingCartRepository ShoppingCart { get; }
         void Save();
     }
 }

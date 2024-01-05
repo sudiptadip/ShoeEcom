@@ -9,6 +9,8 @@ namespace Ecom.DataAccess.Repository
         public IProductImageRepository ProductImage { get; }
         public IApplicationUserRepository ApplicationUser { get; }
 
+        public IShoppingCartRepository ShoppingCart { get; }
+
         private readonly ApplicationDbContext _db;
 
         public UniteOfWork(ApplicationDbContext db)
@@ -18,6 +20,7 @@ namespace Ecom.DataAccess.Repository
             Product = new ProductRepository(_db);
             ProductImage = new ProductImageRepository(_db);
             ApplicationUser = new ApplicationUserRepository(_db);
+            ShoppingCart = new ShoppingCartRepository(_db);
         }
 
         public void Save()

@@ -7,6 +7,8 @@ using NuGet.Packaging;
 using shoeEcom.Models;
 using System.Diagnostics;
 using LinqKit;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace shoeEcom.Areas.User.Controllers
 {
@@ -15,11 +17,13 @@ namespace shoeEcom.Areas.User.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IUniteOfWork _uniteOfWork;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public HomeController(ILogger<HomeController> logger, IUniteOfWork uniteOfWork)
+        public HomeController(ILogger<HomeController> logger, IUniteOfWork uniteOfWork, UserManager<IdentityUser> userManager)
         {
             _logger = logger;
             _uniteOfWork = uniteOfWork;
+            _userManager = userManager;
         }
 
         public IActionResult Index()
@@ -40,10 +44,27 @@ namespace shoeEcom.Areas.User.Controllers
         {
             DetailsVM vm = new()
             {
-                Product = _uniteOfWork.Product.Get(u => u.Id == id, includeProperty: "Category,ProductImages"),
+                ShoppingCart = new()
+                {
+                    Product = _uniteOfWork.Product.Get(u => u.Id == id, includeProperty: "Category,ProductImages")
+                },
                 OtherOption = _uniteOfWork.Product.GetAll(u => u.Gender == "women", includeProperty: "Category,ProductImages").Take(7)
-            };                        
+            };                   
             return View(vm);
+        }
+
+        [HttpPost]
+        [Authorize]
+        public IActionResult Details(DetailsVM obj)
+        {
+            string userId = _userManager.GetUserId(User);
+            obj.ShoppingCart.Count = 1;
+            obj.ShoppingCart.ApplicationUserId = userId;
+
+            _uniteOfWork.ShoppingCart.Add(obj.ShoppingCart);
+            _uniteOfWork.Save();
+            
+            return RedirectToAction("index");
         }
 
         public IActionResult AllProduct(int[] selectedCategories, string[] gender, string sort, int pageNumber)

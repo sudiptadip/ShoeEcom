@@ -8,7 +8,7 @@ namespace Ecom.Model.ViewModel
 {
     public class DetailsVM
     {
-        public Product Product { get; set; }
+        public ShoppingCart ShoppingCart { get; set; }
         public IEnumerable<Product> OtherOption { get; set; }
     }
 }

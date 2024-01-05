@@ -68,7 +68,6 @@ namespace shoeEcom.Areas.Admin.Controllers
 
             _uniteOfWork.Category.Remove(category);
             _uniteOfWork.Save();
-            ViewBag.Success = "Successfully Category Delete";
             return Ok(new { message = "Category deleted successfully" });
         }
     }
