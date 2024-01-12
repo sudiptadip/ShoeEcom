@@ -18,7 +18,7 @@ namespace Ecom.DataAccess.Repository
 
         public void Update(Category entity)
         {
-             _db.Update(entity);
+             _db.Categorys.Update(entity);
         }
     }
 }

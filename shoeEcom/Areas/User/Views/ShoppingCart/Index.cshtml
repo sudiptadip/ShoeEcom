@@ -1,4 +1,5 @@
-﻿@model List<ShoppingCart>
+﻿@using System.Globalization
+@model List<ShoppingCart>
 
 <main id="MainContent" class="content-for-layout">
     <div class="cart-page mt-100">
@@ -27,7 +28,7 @@
                                             </div>
                                         </td>
                                         <td class="cart-item-details">
-                                            <h2 class="product-title"><a href="#">@item.Product.Title</a></h2>
+                                            <h2 class="product-title"><a asp-area="User" asp-controller="Home" asp-action="Details" asp-route-id="@item.Product.Id" >@item.Product.Title</a></h2>
                                             <p class="product-vendor"> <strong>Category : </strong> @item.Product.Category.Name </p>
                                             <p class="product-vendor"> <strong>Size : </strong> @item.Size </p>
                                         </td>
@@ -38,7 +39,7 @@
                                             <span onclick="deleteCart(@item.Id)" class="product-remove mt-2" style="cursor: pointer">Remove</span>
                                         </td>
                                         <td class="cart-item-price text-end">
-                                            <div class="product-price">@item.Product.DiscountPrice.ToString("c")</div>
+                                            <div class="product-price"> @string.Format(new CultureInfo("en-IN"), "{0:C}", @item.Product.DiscountPrice)</div>
                                         </td>
                                     </tr>
                                 }

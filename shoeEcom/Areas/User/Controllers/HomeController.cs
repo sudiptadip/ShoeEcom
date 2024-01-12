@@ -42,15 +42,25 @@ namespace shoeEcom.Areas.User.Controllers
 
         public IActionResult Details(int id)
         {
+            var product = _uniteOfWork.Product.Get(u => u.Id == id, includeProperty: "Category,ProductImages");
+
             DetailsVM vm = new()
             {
                 ShoppingCart = new()
                 {
-                    Product = _uniteOfWork.Product.Get(u => u.Id == id, includeProperty: "Category,ProductImages")
+                    Product = product
                 },
                 OtherOption = _uniteOfWork.Product.GetAll(u => u.Gender == "women", includeProperty: "Category,ProductImages").Take(7)
-            };                   
-            return View(vm);
+            };
+
+            if(product != null)
+            {
+                return View(vm);
+            }
+            else{
+                return NotFound();
+            }
+                       
         }
 
         [HttpPost]
@@ -63,7 +73,7 @@ namespace shoeEcom.Areas.User.Controllers
 
             _uniteOfWork.ShoppingCart.Add(obj.ShoppingCart);
             _uniteOfWork.Save();
-            
+            TempData["Success"] = "Add To Cart Successfully Done";
             return RedirectToAction("index");
         }
 
@@ -114,7 +124,6 @@ namespace shoeEcom.Areas.User.Controllers
 
             return View(paginatedList);
 
-
         }
 
         public IActionResult Privacy()
@@ -122,10 +131,23 @@ namespace shoeEcom.Areas.User.Controllers
             return View();
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        public IActionResult Contact()
         {
+            return View();
+        }
+
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Error(int statuscode)
+        {
+            if(statuscode == 404)
+            {
+                return RedirectToAction("NotFound");
+            }
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+        public IActionResult NotFound()
+        {
+            return View();
         }
     }
 }

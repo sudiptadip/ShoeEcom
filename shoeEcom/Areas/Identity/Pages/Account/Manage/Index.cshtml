@@ -1,10 +1,11 @@
 ﻿@page
+@using System.Globalization
 @model IndexModel
 @{
     ViewData["Title"] = "Profile";
     ViewData["ActivePage"] = ManageNavPages.Index;
 }
-
+@*
 <h3>@ViewData["Title"]</h3>
 <partial name="_StatusMessage" for="StatusMessage" />
 <div class="row">
@@ -27,4 +28,71 @@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
-}
+} *@
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-4">
+            <!-- User Information -->
+            <div class="card shadow">
+                <div class="card-body text-center">
+                    <div class="profile-image mx-auto mb-3">
+                        <img style="height: 120px; width: 120px;" src="https://www.clipartkey.com/mpngs/m/198-1988954_staff-profile-photo-facebook-blank-profile-picture-male.png" alt="User Profile Image" class="img-fluid rounded-circle">
+                    </div>
+                    <input type="file" id="profileImage" style="display:none;">
+                    <label for="profileImage" class="btn btn-outline-primary btn-sm">Change Profile Picture</label>
+                    <h5 class="card-title mt-3 text-primary"> @Model.Input.FirstName @Model.Input.LastName</h5>
+                    <p class="card-text"><i class="fas fa-envelope"></i> @Model.Input.Email </p>
+                    <p class="card-text"><i class="fas fa-map-marker-alt"></i> 123 Main Street</p>
+                    <a href="#" class="btn btn-primary">Edit Profile</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+
+
+            <!-- Order History -->
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Order History</h5>
+
+                    @foreach (var item in Model.Input.OrderItem)
+                    {
+                        <div class="card mb-3" style="border-left: 4px solid #3498db;">
+                            <div class="card-body">
+                                <div style="display: flex; justify-content: space-between;">
+                                    <h6 class="card-subtitle text-muted">Order No #MBKKR003@(item.Id)</h6>
+                                    <p class="text-right text-muted">Payment Type: <span class="text-success">@(item.PaymentType == "cash" ? "Carsh On Delivery" : "Paid")</span></p>
+                                </div>
+                                <p style="margin-top: -15px;" class="card-text">Order Date: <span class="text-primary">@item.OrderTime</span></p>
+                                <p style="margin-top: -7px;" class="card-text">Address: <span class="text-muted"> City : @item.OrderAddress.City , State : @item.OrderAddress.State, Pin : @item.OrderAddress.PostalCode </span></p>
+                                <div class="media" style="display: flex; gap: 30px" >
+                                    <div>
+                                        <img src="@item.Product.ProductImages[0].ImageUrl" class="mr-3" alt="Product Image" style="max-width: 100px;">
+                                    </div>
+                                    <div class="media-body">
+                                        <a asp-area="User" asp-controller="Home" asp-action="Details" asp-route-id="@item.Product.Id" >
+                                            <h5 class="mt-0">@item.Product.Title</h5>
+                                        </a>
+                                        <p>Price: <span class="text-success">@(string.Format(new CultureInfo("en-IN"), "{0:C}", item.Price))</span></p>
+                                        <p style="margin-top: -15px;">Size: @item.Size</p>
+                                        <p style="margin-top: -15px;">Order Status: <span class="text-primary">@(item.OrderStatus == "Success" ? "Pending" : item.OrderStatus)</span></p>
+                                        <a asp-area="User" asp-page="CancelOrder" style="position: absolute; right: 20px; bottom: 20px" class="btn btn-sm btn-danger">
+                                            Cancel Order
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                    @if(Model.Input.OrderItem.Count == 0)
+                    {
+                        <a class="btn btn-primary" asp-action="AllProduct" asp-controller="Home">Buy Product</a>
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

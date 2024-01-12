@@ -8,17 +8,17 @@ using System.Threading.Tasks;
 
 namespace Ecom.DataAccess.Repository
 {
-    public class ProductImageRepository : Repository<ProductImage>, IProductImageRepository
+    public class OrderAddressRepository : Repository<OrderAddress>, IOrderAddressRepository
     {
         private readonly ApplicationDbContext _db;
-        public ProductImageRepository(ApplicationDbContext db) : base(db)
+        public OrderAddressRepository(ApplicationDbContext db) : base(db)
         {
             _db = db;
         }
 
-        public void Update(ProductImage entity)
+        public void Update(OrderAddress entity)
         {
-             _db.ProductImages.Update(entity);
+             _db.OrderAddress.Update(entity);
         }
     }
 }

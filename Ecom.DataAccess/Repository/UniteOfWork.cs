@@ -8,10 +8,13 @@ namespace Ecom.DataAccess.Repository
         public IProductRepository Product { get; }
         public IProductImageRepository ProductImage { get; }
         public IApplicationUserRepository ApplicationUser { get; }
-
         public IShoppingCartRepository ShoppingCart { get; }
+        public IOrderAddressRepository OrderAddress { get; }
+        public IOrderItemRepository OrderItem { get; }
+
 
         private readonly ApplicationDbContext _db;
+
 
         public UniteOfWork(ApplicationDbContext db)
         {
@@ -21,6 +24,8 @@ namespace Ecom.DataAccess.Repository
             ProductImage = new ProductImageRepository(_db);
             ApplicationUser = new ApplicationUserRepository(_db);
             ShoppingCart = new ShoppingCartRepository(_db);
+            OrderAddress = new OrderAddressRepository(_db);
+            OrderItem = new OrderItemRepository(_db);
         }
 
         public void Save()

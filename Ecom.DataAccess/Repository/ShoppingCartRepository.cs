@@ -18,7 +18,7 @@ namespace Ecom.DataAccess.Repository
 
         public void Update(ShoppingCart entity)
         {
-             _db.Update(entity);
+             _db.shoppingCarts.Update(entity);
         }
     }
 }

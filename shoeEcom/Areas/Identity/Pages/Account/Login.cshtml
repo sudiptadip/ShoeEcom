@@ -113,17 +113,22 @@
                             <span asp-validation-for="Input.Password" class="text-danger"></span>
                         </fieldset>
                     </div>
+                    <div class="checkbox mt-3">
+                        <label style="display: flex; gap: 20px; align-items: center" asp-for="Input.RememberMe" class="form-label">
+                            <input style="width: 20px; height: 20px" class="form-check-input" asp-for="Input.RememberMe" />
+                            @Html.DisplayNameFor(m => m.Input.RememberMe)
+                        </label>
+                    </div>
                     <div class="col-12 mt-3">
                         <a asp-page="./ForgotPassword" class="text_14 d-block">Forgot your password?</a>
                         <button type="submit" class="btn-primary d-block mt-4 btn-signin">SIGN IN</button>
                         <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl" class="btn-secondary mt-2 btn-signin">CREATE AN ACCOUNT</a>
-                    </div>
+                    </div> 
                 </div>
             </form>
         </div>
     </div>
 </main>
-
 
 
 @section Scripts {

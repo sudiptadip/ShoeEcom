@@ -4,6 +4,7 @@ using Ecom.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Ecom.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240108143057_UpdateOrderItem")]
+    partial class UpdateOrderItem
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -53,7 +56,7 @@ namespace Ecom.DataAccess.Migrations
 
                     b.Property<string>("ApplicationUserId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("City")
                         .IsRequired()
@@ -88,6 +91,8 @@ namespace Ecom.DataAccess.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ApplicationUserId");
 
                     b.ToTable("OrderAddress");
                 });
@@ -134,8 +139,6 @@ namespace Ecom.DataAccess.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ApplicationUserId");
-
-                    b.HasIndex("OrderAddressId");
 
                     b.HasIndex("ProductId");
 
@@ -457,7 +460,7 @@ namespace Ecom.DataAccess.Migrations
                     b.HasDiscriminator().HasValue("ApplicationUser");
                 });
 
-            modelBuilder.Entity("Ecom.Model.OrderItem", b =>
+            modelBuilder.Entity("Ecom.Model.OrderAddress", b =>
                 {
                     b.HasOne("Ecom.Model.ApplicationUser", "ApplicationUser")
                         .WithMany()
@@ -465,9 +468,14 @@ namespace Ecom.DataAccess.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Ecom.Model.OrderAddress", "OrderAddress")
+                    b.Navigation("ApplicationUser");
+                });
+
+            modelBuilder.Entity("Ecom.Model.OrderItem", b =>
+                {
+                    b.HasOne("Ecom.Model.ApplicationUser", "ApplicationUser")
                         .WithMany()
-                        .HasForeignKey("OrderAddressId")
+                        .HasForeignKey("ApplicationUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -478,8 +486,6 @@ namespace Ecom.DataAccess.Migrations
                         .IsRequired();
 
                     b.Navigation("ApplicationUser");
-
-                    b.Navigation("OrderAddress");
 
                     b.Navigation("Product");
                 });

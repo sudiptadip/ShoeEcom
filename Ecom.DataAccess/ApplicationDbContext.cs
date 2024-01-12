@@ -20,5 +20,7 @@ namespace Ecom.DataAccess
         public DbSet<ProductImage> ProductImages { get; set; }
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
         public DbSet<ShoppingCart> shoppingCarts { get; set; }
+        public DbSet<OrderAddress> OrderAddress { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; }
     }
 }

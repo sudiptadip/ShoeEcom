@@ -1,4 +1,5 @@
-﻿@model DetailsVM
+﻿@using System.Globalization
+@model DetailsVM
 
 <main id="MainContent" class="content-for-layout">
     <div class="product-page mt-100">
@@ -76,8 +77,8 @@
                             <span class="rating-count ms-2">(22)</span>
                         </div>
                         <div class="product-price-wrapper mb-4">
-                            <span class="product-price regular-price">@Model.ShoppingCart.Product.DiscountPrice.ToString("c")</span>
-                            <del class="product-price compare-price ms-2">@Model.ShoppingCart.Product.Price.ToString("c")</del>
+                            <span class="product-price regular-price">@string.Format(new CultureInfo("en-IN"), "{0:C}", @Model.ShoppingCart.Product.DiscountPrice)</span>
+                            <del class="product-price compare-price ms-2">@string.Format(new CultureInfo("en-IN"), "{0:C}", @Model.ShoppingCart.Product.Price)</del>
                         </div>
                         <div class="product-sku product-meta mb-1">
                             <strong class="label">SKU:</strong> @Model.ShoppingCart.Product.SKU
