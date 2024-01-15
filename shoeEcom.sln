@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ecom.Model", "Ecom.Model\Ec
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ecom.DataAccess", "Ecom.DataAccess\Ecom.DataAccess.csproj", "{C334734B-DD74-404C-8BEF-DFE159F0B14D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecom.Utility", "Ecom.Utility\Ecom.Utility.csproj", "{1611E74F-1B14-41EF-8021-DA3182DD34C2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ecom.Utility", "Ecom.Utility\Ecom.Utility.csproj", "{1611E74F-1B14-41EF-8021-DA3182DD34C2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

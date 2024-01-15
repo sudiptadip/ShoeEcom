@@ -2568,7 +2568,7 @@ blockquote {
   opacity: 0.6; }
 
 .action-count {
-  background-image: url("../../assets/img/about/count-bg.png");
+  background-image: url("../img/about/count-bg.png");
   background-size: contain;
   background-repeat: no-repeat;
   min-width: 63px;
@@ -2791,7 +2791,7 @@ blockquote {
   border-radius: 4px; }
 
 .about-banner {
-  background-image: url("../../assets/img/about/banner.jpg");
+  background-image: url("../img/about/banner.jpg");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center; }

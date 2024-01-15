@@ -12,5 +12,6 @@ namespace Ecom.Model.ViewModel
         [ValidateNever]
         public List<ShoppingCart> Carts { get; set; }
         public OrderAddress OrderAddress { get; set; }
+        public ApplicationUser User { get; set; }
     }
 }

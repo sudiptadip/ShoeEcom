@@ -1,0 +1,96 @@
+﻿@page
+@model shoeEcom.Areas.Identity.Pages.Account.Manage.EditProfileModel
+
+<div class="col-xl-7 col-lg-6 col-md-12 col-12" style="margin: auto" >
+    <div class="checkout-user-area overflow-hidden d-flex row">
+        <div class="checkout-user-img me-4 col-md-3">
+            @if (string.IsNullOrEmpty(Model.ApplicationUser.ProfileImgUrl))
+            {
+                <img style="height: 120px; width: 120px;" src="~/images/profile/DummyProfile.png" alt="User Profile Image" class="img-fluid rounded-circle" id="userProfileImage">
+            }
+            else
+            {
+                <img style="height: 120px; width: 120px;" src="@Model.ApplicationUser.ProfileImgUrl" alt="User Profile Image" class="img-fluid rounded-circle" id="userProfileImage">
+            }
+        </div>
+        <div class="col-md-7" style="display: flex; justify-content: center; align-items: center" >
+            <h3 class="text-white" >Edit Your Profile</h3>
+        </div>
+    </div>
+    <form id="myForm" method="post" class="shipping-address-form common-form" novalidate="novalidate">
+        <div class="shipping-address-area">
+            <h2 class="shipping-address-heading pb-1">Profile</h2>
+            <div class="shipping-address-form-wrapper">
+                <div class="row">
+                    <div class="col-lg-6 col-md-12 col-12">
+                        <fieldset>
+                            <label asp-for="ApplicationUser.FirstName" class="label">First name</label>
+                            <input asp-for="ApplicationUser.FirstName" value="@Model.ApplicationUser.FirstName" >
+                            <span class="text-danger" asp-validation-for="ApplicationUser.FirstName"></span>
+                        </fieldset>
+                    </div>
+                    <div class="col-lg-6 col-md-12 col-12">
+                        <fieldset>
+                            <label asp-for="ApplicationUser.LastName" class="label"></label>
+                            <input asp-for="ApplicationUser.LastName" value="@Model.ApplicationUser.LastName">
+                            <span class="text-danger" asp-validation-for="ApplicationUser.LastName"></span>
+                        </fieldset>
+                    </div>
+                    <div class="col-lg-12 col-md-12 col-12">
+                        <fieldset>
+                            <label asp-for="ApplicationUser.PhoneNumber" class="label"></label>
+                            <input asp-for="ApplicationUser.PhoneNumber" value="@Model.ApplicationUser.PhoneNumber">
+                            <span class="text-danger" asp-validation-for="ApplicationUser.PhoneNumber"></span>
+                        </fieldset>
+                    </div>
+                    <div class="col-lg-6 col-md-12 col-12">
+                        <fieldset>
+                            <label asp-for="ApplicationUser.City" class="label"></label>
+                            <input asp-for="ApplicationUser.City" value="@Model.ApplicationUser.City">
+                            <span class="text-danger" asp-validation-for="ApplicationUser.City"></span>
+                        </fieldset>
+                    </div>
+                    <div class="col-lg-6 col-md-12 col-12">
+                        <fieldset>
+                            <label asp-for="ApplicationUser.State" class="label"></label>
+                            <input asp-for="ApplicationUser.State" value="@Model.ApplicationUser.State">
+                            <span class="text-danger" asp-validation-for="ApplicationUser.State"></span>
+                        </fieldset>
+                    </div>
+                    <div class="col-lg-6 col-md-12 col-12">
+                        <fieldset>
+                            <label asp-for="ApplicationUser.Country" class="label"></label>
+                            <input asp-for="ApplicationUser.Country" value="@Model.ApplicationUser.Country">
+                            <span class="text-danger" asp-validation-for="ApplicationUser.Country"></span>
+                        </fieldset>
+                    </div>
+                    <div class="col-lg-6 col-md-12 col-12">
+                        <fieldset>
+                            <label asp-for="ApplicationUser.PostalCode" class="label"></label>
+                            <input asp-for="ApplicationUser.PostalCode" value="@Model.ApplicationUser.PostalCode">
+                            <span class="text-danger" asp-validation-for="ApplicationUser.PostalCode"></span>
+                        </fieldset>
+                    </div>
+                    <div class="col-lg-12 col-md-12 col-12">
+                        <fieldset>
+                            <label class="label" asp-for="ApplicationUser.Address"></label>
+                            <textarea asp-for="ApplicationUser.Address" value="@Model.ApplicationUser.Address" class="form-control" rows="3" data-val="true"></textarea>
+                            <span class="text-danger" asp-validation-for="ApplicationUser.Address"></span>
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="shipping-address-area billing-area">
+            <div class="minicart-btn-area d-flex align-items-center justify-content-between flex-wrap">
+                <a class="checkout-page-btn minicart-btn btn-secondary" asp-page="/Account/Manage/Index">BACK TO Profile</a>
+                <button type="submit" class="checkout-page-btn minicart-btn btn-primary">Update</button>
+            </div>
+        </div>
+        <input asp-for="ApplicationUser.Id" hidden value="@Model.ApplicationUser.Id" />
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

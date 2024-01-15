@@ -21,14 +21,21 @@
                         </div>
                         <div class="checkout-user-area overflow-hidden d-flex align-items-center">
                             <div class="checkout-user-img me-4">
-                                <img style="width: 80px; height: 80px" src="https://hips.hearstapps.com/hmg-prod/images/Emma-Watson_GettyImages-619546914.jpg?crop=1xw:1.0xh;center,top&resize=640:*" alt="img">
+                                @if (string.IsNullOrEmpty(Model.User.ProfileImgUrl))
+                                {
+                                    <img style="height: 120px; width: 120px;" src="~/images/profile/DummyProfile.png" alt="User Profile Image" class="img-fluid rounded-circle" id="userProfileImage">
+                                }
+                                else
+                                {
+                                    <img style="height: 120px; width: 120px;" src="@Model.User.ProfileImgUrl" alt="User Profile Image" class="img-fluid rounded-circle" id="userProfileImage">
+                                }
                             </div>
                             <div class="checkout-user-details d-flex align-items-center justify-content-between w-100">
                                 <div class="checkout-user-info">
-                                    <h2 class="checkout-user-name">Susan Gardner</h2>
-                                    <p class="checkout-user-address mb-0">2752 avenue Royale, Quebec, G1R 2B2, Canada</p>
+                                    <h2 class="checkout-user-name">@Model.User.FirstName @Model.User.LastName</h2>
+                                    <p class="checkout-user-address mb-0">@Model.User.Address</p>
                                 </div>
-                                <a href="#" class="edit-user btn-secondary">EDIT PROFILE</a>
+                                <a asp-area="Identity" asp-page="/Account/Manage/EditProfile" asp-route-userId="@Model.User.Id" class="edit-user btn-secondary">EDIT PROFILE</a>
                             </div>
                         </div>
                         <form id="myForm" method="post" class="shipping-address-form common-form">
@@ -39,63 +46,63 @@
                                         <div class="col-lg-6 col-md-12 col-12">
                                             <fieldset>
                                                 <label asp-for="OrderAddress.FirstName" class="label">First name</label>
-                                                <input asp-for="OrderAddress.FirstName" type="text" />
+                                                <input asp-for="OrderAddress.FirstName" type="text" value="@Model.User.FirstName" />
                                                 <span asp-validation-for="OrderAddress.FirstName" class="text-danger" ></span>
                                             </fieldset>
                                         </div>
                                         <div class="col-lg-6 col-md-12 col-12">
                                             <fieldset>
                                                 <label asp-for="OrderAddress.LastName" class="label">Last name</label>
-                                                <input asp-for="OrderAddress.LastName" type="text" />
+                                                <input asp-for="OrderAddress.LastName" value="@Model.User.LastName" type="text" />
                                                 <span asp-validation-for="OrderAddress.LastName" class="text-danger"></span>
                                             </fieldset>
                                         </div>
                                         <div class="col-lg-6 col-md-12 col-12">
                                             <fieldset>
                                                 <label asp-for="OrderAddress.Email" class="label">Email address</label>
-                                                <input asp-for="OrderAddress.Email" type="email" />
+                                                <input asp-for="OrderAddress.Email" type="email" value="@Model.User.Email" />
                                                 <span asp-validation-for="OrderAddress.Email" class="text-danger"></span>
                                             </fieldset>
                                         </div>
                                         <div class="col-lg-6 col-md-12 col-12">
                                             <fieldset>
                                                 <label asp-for="OrderAddress.Mobile" class="label">Phone number</label>
-                                                <input asp-for="OrderAddress.Mobile" type="text" />
+                                                <input asp-for="OrderAddress.Mobile" type="text" value="@Model.User.PhoneNumber" />
                                                 <span asp-validation-for="OrderAddress.Mobile" class="text-danger"></span>
                                             </fieldset>
                                         </div>
                                         <div class="col-lg-6 col-md-12 col-12">
                                             <fieldset>
                                                 <label asp-for="OrderAddress.Country" class="label"></label>
-                                                <input asp-for="OrderAddress.Country" type="text" />
+                                                <input asp-for="OrderAddress.Country" type="text" value="@Model.User.Country" />
                                                 <span asp-validation-for="OrderAddress.Country" class="text-danger"></span>
                                             </fieldset>
                                         </div>
                                         <div class="col-lg-6 col-md-12 col-12">
                                             <fieldset>
                                                 <label asp-for="OrderAddress.State" class="label"></label>
-                                                <input asp-for="OrderAddress.State" type="text" />
+                                                <input asp-for="OrderAddress.State" type="text" value="@Model.User.State" />
                                                 <span asp-validation-for="OrderAddress.State" class="text-danger"></span>
                                             </fieldset>
                                         </div>
                                         <div class="col-lg-6 col-md-12 col-12">
                                             <fieldset>
                                                 <label asp-for="OrderAddress.City" class="label"></label>
-                                                <input asp-for="OrderAddress.City" type="text" />
+                                                <input asp-for="OrderAddress.City" type="text" value="@Model.User.City" />
                                                 <span asp-validation-for="OrderAddress.City" class="text-danger"></span>
                                             </fieldset>
                                         </div>
                                         <div class="col-lg-6 col-md-12 col-12">
                                             <fieldset>
                                                 <label asp-for="OrderAddress.PostalCode" class="label">Zip code</label>
-                                                <input asp-for="OrderAddress.PostalCode" type="text" />
+                                                <input asp-for="OrderAddress.PostalCode" type="text" value="@Model.User.PostalCode" />
                                                 <span asp-validation-for="OrderAddress.PostalCode" class="text-danger"></span>
                                             </fieldset>
                                         </div>
                                         <div class="col-lg-12 col-md-12 col-12">
                                             <fieldset>
                                                 <label asp-for="OrderAddress.Address" class="label">Address 1</label>
-                                                <textarea asp-for="OrderAddress.Address" class="form-control" rows="3"></textarea>
+                                                <textarea asp-for="OrderAddress.Address" class="form-control" rows="3" value="@Model.User.Address"></textarea>
                                                 <span asp-validation-for="OrderAddress.Address" class="text-danger"></span>
                                             </fieldset>
                                         </div>

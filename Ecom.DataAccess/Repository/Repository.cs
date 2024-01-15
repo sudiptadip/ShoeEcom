@@ -53,7 +53,7 @@ namespace Ecom.DataAccess.Repository
                 }
                 return query.ToList();
             }
-            else
+            else 
             {
                 IQueryable<T> query = dbSet;
                 query = query.Where(filter);

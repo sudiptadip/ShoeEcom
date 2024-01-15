@@ -111,6 +111,7 @@ namespace shoeEcom.Areas.Identity.Pages.Account
             [Required, DisplayName("Last Name")]
             public string LastName { get; set; }
             public string? Role { get; set; }
+            public DateTime? CreatedOn { get; set; }
 
             [ValidateNever]
             public IEnumerable<SelectListItem> RoleList { get; set; }
@@ -119,13 +120,7 @@ namespace shoeEcom.Areas.Identity.Pages.Account
 
         public async Task OnGetAsync(string returnUrl = null)
         {
-            if(!_roleManager.RoleExistsAsync(SD.Role_User).GetAwaiter().GetResult())
-            {
-                _roleManager.CreateAsync(new IdentityRole(SD.Role_User)).GetAwaiter().GetResult();
-                _roleManager.CreateAsync(new IdentityRole(SD.Role_Admin)).GetAwaiter().GetResult();
-                _roleManager.CreateAsync(new IdentityRole(SD.Role_Seller)).GetAwaiter().GetResult();
-                _roleManager.CreateAsync(new IdentityRole(SD.Role_Employee)).GetAwaiter().GetResult();
-            }
+            
 
             Input = new InputModel()
             {
@@ -144,29 +139,33 @@ namespace shoeEcom.Areas.Identity.Pages.Account
         {
             returnUrl ??= Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+            
             if (ModelState.IsValid)
             {
                 var user = CreateUser();
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
-                var result = await _userManager.CreateAsync(user, Input.Password);
-
                 user.FirstName = Input.FirstName;
                 user.LastName = Input.LastName;
-                if(string.IsNullOrEmpty(Input.Role))
-                {
-                    await _userManager.AddToRoleAsync(user, SD.Role_User);
-                }
-                else
-                {
-                    await _userManager.AddToRoleAsync(user, Input.Role);
-                }
-                
+                user.CreatedOn = DateTime.Now;
+
+                var result = await _userManager.CreateAsync(user, Input.Password);
+                              
 
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
+
+
+                    if (string.IsNullOrEmpty(Input.Role))
+                    {
+                        await _userManager.AddToRoleAsync(user, SD.Role_User);
+                    }
+                    else
+                    {
+                        await _userManager.AddToRoleAsync(user, Input.Role);
+                    }
 
                     var userId = await _userManager.GetUserIdAsync(user);
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
@@ -186,7 +185,15 @@ namespace shoeEcom.Areas.Identity.Pages.Account
                     }
                     else
                     {
-                        await _signInManager.SignInAsync(user, isPersistent: false);
+                        if(User.IsInRole(SD.Role_Admin))
+                        {
+                            TempData["success"] = "New User Created Successfully";
+                        }
+                        else
+                        {
+                            await _signInManager.SignInAsync(user, isPersistent: false);
+                            TempData["success"] = "New User Created Successfully";
+                        }
                         return LocalRedirect(returnUrl);
                     }
                 }
@@ -197,6 +204,14 @@ namespace shoeEcom.Areas.Identity.Pages.Account
             }
 
             // If we got this far, something failed, redisplay form
+            Input = new InputModel()
+            {
+                RoleList = _roleManager.Roles.Select(x => new SelectListItem
+                {
+                    Text = x.Name,
+                    Value = x.Name
+                })
+            };
             return Page();
         }
 

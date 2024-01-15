@@ -6,6 +6,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using Ecom.DataAccess.Migrations;
 using Ecom.DataAccess.Repository.IRepository;
 using Ecom.Model;
 using Microsoft.AspNetCore.Identity;
@@ -35,21 +36,27 @@ namespace shoeEcom.Areas.Identity.Pages.Account.Manage
         [BindProperty]
         public InputModel Input { get; set; }
 
+        [BindProperty]
+        public string userId { get; set; }
+
         public class InputModel
         {
             [Phone]
             [Display(Name = "Phone number")]
             public string PhoneNumber { get; set; }
+            public string Address { get; set; }
+            public string ImageUrl { get; set; }
             public string FirstName { get; set; }
             public string LastName { get; set; }
             public string Email { get; set; }
+            public int UpdateOrderId { get; set; }
             public List<OrderItem> OrderItem { get; set; }
         }
 
         private async Task LoadAsync(IdentityUser user)
         {
             var userName = await _userManager.GetUserNameAsync(user);
-            var userId = await _userManager.GetUserIdAsync(user);
+            userId = await _userManager.GetUserIdAsync(user);
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
 
             Username = userName;
@@ -60,11 +67,13 @@ namespace shoeEcom.Areas.Identity.Pages.Account.Manage
             {
                 PhoneNumber = phoneNumber,
                 FirstName = aplicationUser.FirstName,
+                ImageUrl = aplicationUser.ProfileImgUrl,
                 LastName = aplicationUser.LastName,
                 Email = aplicationUser.Email,
                 OrderItem = (List<OrderItem>)_uniteOfWork.OrderItem.GetAll(u => u.ApplicationUserId == userId, 
                 includeProperty: "Product,ApplicationUser,OrderAddress," +
-                "Product.Category,Product.ProductImages")
+                "Product.Category,Product.ProductImages"),
+                Address = aplicationUser.Address,
             };
         }
 
@@ -113,6 +122,26 @@ namespace shoeEcom.Areas.Identity.Pages.Account.Manage
 
             await _signInManager.RefreshSignInAsync(user);
             StatusMessage = "Your profile has been updated";
+
+            
+
+            if(Input.UpdateOrderId != null && Input.UpdateOrderId > 0)
+            {
+                var orderItem = _uniteOfWork.OrderItem.Get(u => u.Id == Input.UpdateOrderId);
+                if (orderItem != null)
+                {
+                    orderItem.OrderStatus = "Cancel";
+
+                    if(orderItem.PaymentType == "online")
+                    {
+                        orderItem.PaymentType = "Refund";
+                    }
+
+                    _uniteOfWork.OrderItem.Update(orderItem);
+                    _uniteOfWork.Save();
+                }
+            }
+
             return RedirectToPage();
         }
     }

@@ -1,4 +1,5 @@
-﻿using Ecom.DataAccess.Repository.IRepository;
+﻿using Ecom.DataAccess.Migrations;
+using Ecom.DataAccess.Repository.IRepository;
 using Ecom.Model;
 using Ecom.Model.ViewModel;
 using Microsoft.AspNetCore.Authorization;
@@ -13,10 +14,12 @@ namespace shoeEcom.Areas.User.Controllers
     {
         private readonly IUniteOfWork _uniteOfWork;
         private readonly UserManager<IdentityUser> _userManager;
-        public ShoppingCartController(IUniteOfWork uniteOfWork, UserManager<IdentityUser> userManager)
+        private readonly IWebHostEnvironment _webHostEnvironment;
+        public ShoppingCartController(IUniteOfWork uniteOfWork, UserManager<IdentityUser> userManager, IWebHostEnvironment webHostEnvironment)
         {
             _uniteOfWork = uniteOfWork;
             _userManager = userManager;
+            _webHostEnvironment = webHostEnvironment;
         }
         [Authorize]
         public IActionResult Index()
@@ -62,6 +65,7 @@ namespace shoeEcom.Areas.User.Controllers
             string userId = _userManager.GetUserId(User);
             CheckoutVM checkoutVM = new CheckoutVM();
             checkoutVM.Carts = (List<ShoppingCart>)_uniteOfWork.ShoppingCart.GetAll(u => u.ApplicationUserId == userId, includeProperty: "Product,Product.ProductImages");
+            checkoutVM.User = _uniteOfWork.ApplicationUser.Get(u => u.Id == userId);
 
             double Subtotals = 0;
             double Discount = 0;
@@ -145,8 +149,41 @@ namespace shoeEcom.Areas.User.Controllers
 
             _uniteOfWork.ShoppingCart.RemoveRange(carts);
             _uniteOfWork.Save();
+            TempData["success"] = "Order placed successfully! Thank you for shopping with us.";
+            return RedirectToAction("Manage", "Account", new { area = "Identity" });
+        }
 
-            return RedirectToAction("Index", "Home");
+
+        [HttpPost]
+        public void UploadProfile(IFormFile img, string userId)
+        {
+            string wwwRootPath = _webHostEnvironment.WebRootPath;
+            ApplicationUser applicationUser = _uniteOfWork.ApplicationUser.Get(u => u.Id == userId);
+
+            if (img != null)
+            {
+                string fileName = Guid.NewGuid().ToString() + Path.GetExtension(img.FileName);
+                string productPath = Path.Combine(wwwRootPath, @"images\profile");
+
+                if (!string.IsNullOrEmpty(applicationUser.ProfileImgUrl))
+                {
+                    var oldImagePath = Path.Combine(wwwRootPath, applicationUser.ProfileImgUrl.TrimStart('\\'));
+
+                    if(System.IO.File.Exists(oldImagePath))
+                    {
+                        System.IO.File.Delete(oldImagePath);
+                    }
+                }
+
+                using (var fileStream = new FileStream(Path.Combine(productPath, fileName), FileMode.Create))
+                {
+                    img.CopyTo(fileStream);
+                }
+
+                applicationUser.ProfileImgUrl = @"\images\profile\" + fileName;
+                _uniteOfWork.ApplicationUser.Update(applicationUser);
+                _uniteOfWork.Save();
+            }
         }
 
     }
